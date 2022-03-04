@@ -6,21 +6,13 @@ class Solution {
             if(ch=='('){
                 open++;
             }else if(ch==')'){
+                if(open>0) open--;
+                else additional++;
+                
                 if(i+1<s.length() && s.charAt(i+1)==')'){
-                    if(open==0){
-                        additional++;
-                    }else{
-                        open--;   
-                    }
                     i++;
                 }else{
-                    if(open==0){
-                        additional += 2;
-                    }
-                    else{
-                        additional++;
-                        open--;   
-                    }
+                    additional++;
                 }
             }
         }
