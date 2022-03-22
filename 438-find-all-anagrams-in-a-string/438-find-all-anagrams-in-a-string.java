@@ -1,37 +1,43 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        HashMap<Character,Integer> map1 = new HashMap<>();
         List<Integer> list = new ArrayList<>();
         if(p.length()>s.length()){
             return list;
         }
+        int []map1 = new int[26];
         for(int i=0;i<p.length();i++){
             char ch = p.charAt(i);
-            map1.put(ch,map1.getOrDefault(ch,0)+1);
+            map1[ch-'a']++;
         }
-        HashMap<Character,Integer> map2 = new HashMap<>();
+        int []map2 = new int[26];
         int j=0;
         for(int i=0;i<p.length();i++){
             char ch = s.charAt(i);
-            map2.put(ch,map2.getOrDefault(ch,0)+1);
+            map2[ch-'a']++;
         }
-        if(map1.equals(map2)){
+        if(areAnagram(map1,map2)){
             list.add(j);
         }
         for(int i=p.length();i<s.length();i++){
             char ch = s.charAt(i);
             char prevch = s.charAt(j);
-            map2.put(ch,map2.getOrDefault(ch,0)+1);
-            if(map2.get(prevch)>1){
-                map2.put(prevch,map2.get(prevch)-1);
-            }else if(map2.get(prevch)==1){
-                map2.remove(prevch);
+            map2[ch-'a']++;
+            if(map2[prevch-'a']>0){
+                map2[prevch-'a']--;
             }
             j++;
-            if(map1.equals(map2)){
+            if(areAnagram(map1,map2)){
                 list.add(j);
             }
         }
         return list;
+    }
+    public boolean areAnagram(int[] map1,int[]map2){
+        for(int i=0;i<26;i++){
+            if(map1[i]!=map2[i]){
+                return false;
+            }
+        }
+        return true;
     }
 }
