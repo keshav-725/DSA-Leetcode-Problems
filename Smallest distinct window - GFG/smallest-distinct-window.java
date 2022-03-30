@@ -51,7 +51,8 @@ class Solution {
                     map.put(ch,1);
                 }
                 i++;
-            }else if(testcount==count){
+            }
+            while(testcount==count){
                 if(minlen>(i-j)){
                     minlen = i-j;
                     ans = str.substring(j,i);
@@ -65,19 +66,19 @@ class Solution {
                 j++;
             }
         }
-        while(testcount==count){
-            if(minlen>(i-j)){
-                    minlen = i-j;
-                    ans = str.substring(j,i);
-                }
-                if(map.getOrDefault(str.charAt(j),0)<=1){
-                    map.remove(str.charAt(j));
-                    testcount--;
-                }else{
-                    map.put(str.charAt(j),map.getOrDefault(str.charAt(j),0)-1);
-                }
-                j++;
-        }
+        // while(testcount==count){
+        //     if(minlen>(i-j)){
+        //         minlen = i-j;
+        //         ans = str.substring(j,i);
+        //     }
+        //     if(map.getOrDefault(str.charAt(j),0)<=1){
+        //         map.remove(str.charAt(j));
+        //         testcount--;
+        //     }else{
+        //         map.put(str.charAt(j),map.getOrDefault(str.charAt(j),0)-1);
+        //     }
+        //     j++;
+        // }
         return ans;
     }
 }
