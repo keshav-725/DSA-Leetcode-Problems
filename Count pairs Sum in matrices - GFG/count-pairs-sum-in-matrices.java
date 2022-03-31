@@ -47,27 +47,26 @@ class GFG {
 class Solution {
     int countPairs(int mat1[][], int mat2[][], int n, int x) {
         // code here
-        HashSet<Integer> set1 = new HashSet<>();
-        HashSet<Integer> set2 = new HashSet<>();
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                int num = mat1[i][j];
-                set1.add(num);
+        int total = n*n;
+        int i=0;
+        int j=total-1;
+        int ans = 0;
+        while(i<total && j>=0){
+            int li = i/n;
+            int lj = i%n;
+            int ri = j/n;
+            int rj = j%n;
+            
+            int sum = mat1[li][lj] + mat2[ri][rj];
+            if(sum==x){
+                ans++;
+                i++;
+            }else if(sum<x){
+                i++;
+            }else if(sum>x){
+                j--;
             }
         }
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                int num = mat2[i][j];
-                set2.add(num);
-            }
-        }
-        int count =0;
-        for(int key : set1){
-            int rem = x-key;
-            if(set2.contains(rem)){
-                count++;
-            }
-        }
-        return count;
+        return ans;
     }
 }
