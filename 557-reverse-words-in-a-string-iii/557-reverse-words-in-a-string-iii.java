@@ -1,25 +1,22 @@
 class Solution {
-    public String reverseWords(String str) {
-        String []breaks = str.split(" ");
-        StringBuilder sb = new StringBuilder("");
-        for(int i=0;i<breaks.length;i++){
-            String tempstr = reverseString(breaks[i]);
-            sb.append(tempstr+" ");
+    public String reverseWords(String s) {
+        char[] c = s.toCharArray();
+        int i = 0, j = 0;
+        for (;j<c.length;j++) {
+            if (c[j] == ' ') {
+                reverseWord(c, i, j-1);
+                i = j+1;
+            } 
         }
-        sb.deleteCharAt(str.length());
-        return sb.toString();
+        reverseWord(c, i, j-1);
+        return new String(c);
     }
-    public String reverseString(String s) {
-        int i=0;
-        int j=s.length()-1;
-        char []temparr = s.toCharArray();
-        while(i<j){
-            char temp = temparr[i];
-            temparr[i] = temparr[j];
-            temparr[j] = temp;
-            i++;
-            j--;
+    
+    private void reverseWord(char[] c, int i, int j) {
+        while (i < j) {
+            char temp = c[i];
+            c[i++] = c[j];
+            c[j--] = temp;
         }
-        return String.valueOf(temparr);
     }
 }
