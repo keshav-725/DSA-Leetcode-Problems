@@ -42,23 +42,21 @@ class Solution {
         String ans="";
         while(i<str.length()){
             char ch = str.charAt(i);
-            if(testcount<count){
+            if(map.size()<count){
                 if(map.containsKey(ch)){
                     map.put(ch,map.get(ch)+1);
                 }else{
-                    testcount++;
                     map.put(ch,1);
                 }
                 i++;
             }
-            while(testcount==count){
+            while(map.size()==count){
                 if(minlen>(i-j)){
                     minlen = i-j;
                     ans = str.substring(j,i);
                 }
                 if(map.getOrDefault(str.charAt(j),0)<=1){
                     map.remove(str.charAt(j));
-                    testcount--;
                 }else{
                     map.put(str.charAt(j),map.getOrDefault(str.charAt(j),0)-1);
                 }
