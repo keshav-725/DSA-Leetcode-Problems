@@ -55,10 +55,11 @@ class Solution {
                     minlen = i-j;
                     ans = str.substring(j,i);
                 }
-                if(map.getOrDefault(str.charAt(j),0)<=1){
-                    map.remove(str.charAt(j));
+                char jch = str.charAt(j);
+                if(map.getOrDefault(jch,0)<=1){
+                    map.remove(jch);
                 }else{
-                    map.put(str.charAt(j),map.getOrDefault(str.charAt(j),0)-1);
+                    map.put(jch,map.getOrDefault(jch,0)-1);
                 }
                 j++;
             }
