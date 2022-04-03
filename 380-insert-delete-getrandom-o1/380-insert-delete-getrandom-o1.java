@@ -17,18 +17,14 @@ class RandomizedSet {
     }
     
     public boolean remove(int val) {
-        //System.out.println(list);
         if(map.containsKey(val)){
             int idx = map.get(val);
             int lindex = list.size()-1;
             int lvalue = list.get(lindex);
-            list.set(idx,list.get(lindex));
-            list.set(lindex,val);
+            list.set(idx,lvalue);
             list.remove(lindex);
-            map.replace(val,lindex);
             map.replace(lvalue,idx);
             map.remove(val);
-            //System.out.println(list);
             return true;
         }else{
             return false;
