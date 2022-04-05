@@ -10,34 +10,34 @@ class Solution {
             list.add(new Pair(start,-ht));
             list.add(new Pair(end,ht));
         }
-            Collections.sort(list);
-            
-            List<List<Integer>> ans = new ArrayList<>();
-            PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-            
-            int cht = 0;
-            pq.add(0);
-            for(int i=0;i<list.size();i++){
-                int x = list.get(i).x;
-                int ht = list.get(i).height;
-                
-                if(ht<0){
-                    pq.add(-ht);
-                }else if(ht>0){
-                    pq.remove(ht);
-                }
-                
-                if(cht != pq.peek()){
-                    List<Integer> temp = new ArrayList<>();
-                    temp.add(x);
-                    temp.add(pq.peek());
-                    
-                    ans.add(temp);
-                    
-                    cht = pq.peek();
-                }
+        Collections.sort(list);
+
+        List<List<Integer>> ans = new ArrayList<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+
+        int cht = 0;
+        pq.add(0);
+        for(int i=0;i<list.size();i++){
+            int x = list.get(i).x;
+            int ht = list.get(i).height;
+
+            if(ht<0){
+                pq.add(-ht);
+            }else if(ht>0){
+                pq.remove(ht);
             }
-            return ans;
+
+            if(cht != pq.peek()){
+                List<Integer> temp = new ArrayList<>();
+                temp.add(x);
+                temp.add(pq.peek());
+
+                ans.add(temp);
+
+                cht = pq.peek();
+            }
+        }
+        return ans;
     }
     public class Pair implements Comparable<Pair>{
         int x;
