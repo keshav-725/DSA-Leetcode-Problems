@@ -27,9 +27,7 @@ class GFG {
 class Solution {
     boolean areKAnagrams(String s1, String s2, int k) {
         // code here
-        if(s1.length()!=s2.length()){
-            return false;
-        }
+        if(s1.length()!=s2.length()) return false;
         int []map1 = new int[26];
         for(int i=0;i<s1.length();i++){
             char ch = s1.charAt(i);
@@ -45,9 +43,7 @@ class Solution {
         for(int i=0;i<26;i++){
             count += map1[i];
         }
-        if(count>k){
-            return false;
-        }
+        if(count>k) return false;
         return true;
     }
 }
