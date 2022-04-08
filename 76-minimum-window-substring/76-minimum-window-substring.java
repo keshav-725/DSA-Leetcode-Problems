@@ -1,54 +1,50 @@
 class Solution {
     public String minWindow(String s, String t) {
-        if(s.length()<t.length())
-            return "";
-        HashMap<Character,Integer> tmap=new HashMap<>();
-        for(char ch:t.toCharArray()){
-            tmap.put(ch,tmap.getOrDefault(ch,0)+1);
+        HashMap<Character,Integer> map1 = new HashMap<>();
+        HashMap<Character,Integer> map2 = new HashMap<>();
+        
+        if(t.length()>s.length()) return "";
+        
+        for(int i=0;i<t.length();i++){
+            char ch = t.charAt(i);
+            map1.put(ch,map1.getOrDefault(ch,0)+1);
         }
-        
-        int i=0;
-        int j=-1;
-        int mmc=t.length();
-        
-        String ans="";
-        HashMap<Character,Integer> smap=new HashMap<>();
-        while(true){
-            while(mmc>0 && i<s.length()){
-                //keep on acquiring until it becomes valid
-                char ch=s.charAt(i);
-                smap.put(ch,smap.getOrDefault(ch,0)+1);
-                if(smap.getOrDefault(ch,0)<=tmap.getOrDefault(ch,0)){
-                    mmc--;
-                    
-                }
-                i++;
+        int count = t.length();
+        int potcount = 0;
+        for(int i=0;i<t.length();i++){
+            char ch = s.charAt(i);
+            if(map1.containsKey(ch) && map1.get(ch)>map2.getOrDefault(ch,0)){
+                potcount++;
             }
-            
-            //when mmc becomes zero => valid seq is found
-            while(mmc==0 && j<i){
-                String pans=s.substring(j+1,i);
-                if(ans.length()==0){
-                    ans=pans;
-                }
-             else   if(pans.length()<ans.length()){
-                    ans=pans;
-                }
-               j++; 
-                
-                //release
-                char ch=s.charAt(j);
-                smap.put(ch,smap.getOrDefault(ch,0)-1);
-                if(smap.getOrDefault(ch,0)<tmap.getOrDefault(ch,0)){
-                    mmc++;
-                }
-            }
-            if(i==s.length())
-                break;
-            
+            map2.put(ch,map2.getOrDefault(ch,0)+1);
         }
-        
+        int i = t.length();
+        int j = 0;
+        String ans = "";
+        int minlen = Integer.MAX_VALUE;
+        if(potcount==count){
+            return s.substring(j,i);
+        }
+        while(i<s.length()){
+            char ch = s.charAt(i);
+            if(map1.containsKey(ch) && map1.get(ch)>map2.getOrDefault(ch,0)){
+                potcount++;
+            }
+            map2.put(ch,map2.getOrDefault(ch,0)+1);
+            while(potcount==count){
+                if(minlen>i-j){
+                    ans = s.substring(j,i+1);
+                    minlen = i-j+1;
+                }
+                char prevch = s.charAt(j);
+                if(map1.containsKey(prevch) && map2.get(prevch)<=map1.get(prevch)){
+                    potcount--;
+                }
+                map2.put(prevch,map2.get(prevch)-1);
+                j++;
+            }
+            i++;
+        }
         return ans;
     }
-    
 }
