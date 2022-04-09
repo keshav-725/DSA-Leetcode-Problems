@@ -29,15 +29,17 @@ class Solution{
     static int sortingCost(int N, int arr[]){
         // code here
         HashMap<Integer,Integer> map = new HashMap<>();
-        int lisub = 1;
+        int maxlen = Integer.MIN_VALUE;
         for(int i=0;i<N;i++){
-            if(map.containsKey(arr[i]-1)){
-                map.put(arr[i],map.get(arr[i]-1)+1);
-                lisub = Math.max(lisub,map.get(arr[i]));
+            int num = arr[i];
+            if(map.containsKey(num-1)){
+                map.put(num,map.get(num-1)+1);
+                maxlen = Math.max(maxlen,map.get(num));
             }else{
-                map.put(arr[i],1);
+                map.put(num,1);
             }
         }
-        return N-lisub;
+        //System.out.println(map);
+        return N-maxlen;
     }
 }
