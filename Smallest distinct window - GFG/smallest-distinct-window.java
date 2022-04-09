@@ -28,38 +28,29 @@ class GFG {
 
 class Solution {
     public String findSubString( String str) {
+        // Your code goes here
+        HashSet<Character> set = new HashSet<>();
+        for(int i=0;i<str.length();i++){
+            set.add(str.charAt(i));
+        }
+        int count = set.size();
         HashMap<Character,Integer> map = new HashMap<>();
+        int j = 0;
+        int minlen = Integer.MAX_VALUE;
+        String ans = "";
         for(int i=0;i<str.length();i++){
             char ch = str.charAt(i);
-            if(!map.containsKey(ch)){
-                map.put(ch,1);
-            }
-        }
-        int count = map.size();
-        int i=0,j=0,testcount=0;
-        int minlen = Integer.MAX_VALUE;
-        map = new HashMap<>();
-        String ans="";
-        while(i<str.length()){
-            char ch = str.charAt(i);
-            if(map.size()<count){
-                if(map.containsKey(ch)){
-                    map.put(ch,map.get(ch)+1);
-                }else{
-                    map.put(ch,1);
-                }
-                i++;
-            }
-            while(map.size()==count){
-                if(minlen>(i-j)){
-                    minlen = i-j;
-                    ans = str.substring(j,i);
+            map.put(ch,map.getOrDefault(ch,0)+1);
+            while(count==map.size()){
+                if(minlen>i-j+1){
+                    ans = str.substring(j,i+1);
+                    minlen = i-j+1;
                 }
                 char jch = str.charAt(j);
-                if(map.getOrDefault(jch,0)<=1){
+                if(map.get(jch)==1){
                     map.remove(jch);
                 }else{
-                    map.put(jch,map.getOrDefault(jch,0)-1);
+                    map.put(jch,map.get(jch)-1);
                 }
                 j++;
             }
