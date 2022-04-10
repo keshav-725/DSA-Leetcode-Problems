@@ -15,7 +15,6 @@ import java.util.*;
 
 class Solution{
     
-  
     ArrayList<Integer> smallestSubsegment(int a[], int n)
     {
         // Complete the function
@@ -54,7 +53,6 @@ class Solution{
         }
         return ans;
     }
-  
     
 }
 
