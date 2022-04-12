@@ -27,7 +27,6 @@ class SnapshotArray {
         return snap_id<0?0:map[index].get(snap_id);
     }
 }
-
 /**
  * Your SnapshotArray object will be instantiated and called as such:
  * SnapshotArray obj = new SnapshotArray(length);
