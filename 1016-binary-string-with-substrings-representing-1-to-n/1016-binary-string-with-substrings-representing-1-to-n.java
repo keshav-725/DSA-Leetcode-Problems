@@ -1,6 +1,6 @@
 class Solution {
    public boolean queryString(String S, int N) {
-        for(int i = 1; i <= N; i++) {
+        for(int i = N; i >= N/2; i--) {
             String digits = toBinary(i);
             if(!S.contains(digits)) return false;
         }
