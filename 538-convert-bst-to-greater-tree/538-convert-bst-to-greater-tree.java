@@ -19,9 +19,8 @@ class Solution {
         if (root == null) return null;
         convertBST(root.right);
         
-        int temp = root.val;
-        root.val += sum;
-        sum += temp;
+        sum += root.val;
+        root.val = sum;
         
         convertBST(root.left);
         return root;
