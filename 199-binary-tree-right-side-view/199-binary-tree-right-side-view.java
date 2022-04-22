@@ -21,12 +21,11 @@ class Solution {
         queue.addLast(root);
         while(queue.size()>0){
             int size=queue.size();
-            while(size>0){
-                if(size==1) ans.add(queue.getFirst().val);
+            ans.add(queue.getFirst().val);
+            while(size-->0){
                 TreeNode rem = queue.removeFirst();
-                if(rem.left!=null) queue.addLast(rem.left);
                 if(rem.right!=null) queue.addLast(rem.right);
-                size--;
+                if(rem.left!=null) queue.addLast(rem.left);
             }
         }
         return ans;
