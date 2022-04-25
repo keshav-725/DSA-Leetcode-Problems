@@ -9,38 +9,28 @@
  */
 class Solution {
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        List<TreeNode> list = new ArrayList<>();
-        boolean nodeExist = nodeToRootPath(root,target,list);
-        List<Integer> ans = new ArrayList<>();
-        for(int i=0;i<list.size();i++){
-            TreeNode block;
-            if(i==0){
-                block = null;
-            }else{
-                block = list.get(i-1);
-            }
-            printKdown(list.get(i),k-i,block,ans);
-        }
+        ArrayList<Integer> ans = new ArrayList<>();
+        nodeToRootPath(root,target,k,ans);
         return ans;
     }
-    public boolean nodeToRootPath(TreeNode root,TreeNode target,List<TreeNode> list){
-        if(root==null) return false;
+    public int nodeToRootPath(TreeNode root,TreeNode target,int k,List<Integer> ans){
+        if(root==null) return -1;
         
         if(root==target){
-            list.add(root);
-            return true;
+            printKdown(root,k,null,ans);
+            return 1;
         }
-        boolean checkleft = nodeToRootPath(root.left,target,list);
-        if(checkleft==true){
-            list.add(root);
-            return true;
+        int ld = nodeToRootPath(root.left,target,k,ans);
+        if(ld!=-1){
+            printKdown(root,k-ld,root.left,ans);
+            return ld+1;
         }
-        boolean checkright = nodeToRootPath(root.right,target,list);
-        if(checkright==true){
-            list.add(root);
-            return true;
+        int rd = nodeToRootPath(root.right,target,k,ans);
+        if(rd!=-1){
+            printKdown(root,k-rd,root.right,ans);
+            return rd+1;
         }
-        return false;
+        return -1;
     }
     public void printKdown(TreeNode root,int k,TreeNode block,List<Integer> ans){
         if(root==null || k<0 || root==block) return;
