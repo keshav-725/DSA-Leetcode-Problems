@@ -1,34 +1,30 @@
 class FreqStack {
-    
-    HashMap<Integer,Integer> fmap;
-    HashMap<Integer,Stack<Integer>> smap;
-    int mfrq=0;
-    
+    HashMap<Integer,Integer> map1;
+    HashMap<Integer,Stack<Integer>> map2;
+    int mfreq;
     public FreqStack() {
-        fmap = new HashMap<>();
-        smap = new HashMap<>();
+        map1 = new HashMap<>();
+        map2 = new HashMap<>();
+        mfreq = 0;
     }
     
     public void push(int val) {
-        fmap.put(val,fmap.getOrDefault(val,0)+1);
-        int count = fmap.get(val);
-        if(smap.containsKey(count)){
-            smap.get(count).push(val);
-        }else{
-            Stack<Integer> temp = new Stack<>();
-            temp.push(val);
-            smap.put(count,temp);
-        }
-        if(count>mfrq) mfrq=count;
+        map1.put(val,map1.getOrDefault(val,0)+1);
+        int freq = map1.get(val);
+        map2.putIfAbsent(freq,new Stack<Integer>());
+        map2.get(freq).push(val);
+        mfreq = Math.max(mfreq,freq);
+        //System.out.println(mfreq);
     }
     
     public int pop() {
-        int rem = smap.get(mfrq).pop();
-        if(smap.get(mfrq).size()==0){
-            mfrq--;
+        int temp = map2.get(mfreq).pop();
+        if(map2.get(mfreq).size()==0){
+            map2.remove(mfreq);
+            mfreq--;
         }
-        fmap.put(rem,fmap.get(rem)-1);
-        return rem;
+        map1.put(temp,map1.get(temp)-1);
+        return temp; 
     }
 }
 
