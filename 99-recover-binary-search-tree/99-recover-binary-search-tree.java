@@ -14,25 +14,39 @@
  * }
  */
 class Solution {
-    TreeNode prev=null,first=null,second=null;
     public void recoverTree(TreeNode root) {
-        inorder(root);
-        int temp=first.val;
-        first.val=second.val;
-        second.val=temp;
-    }
-    public void inorder(TreeNode root){
-        if(root==null){
-            return;
-        }
-        inorder(root.left);
-        if(prev!=null && root.val<prev.val){
-            if(first==null){
-                first=prev;
+        TreeNode prev=null,a=null,b=null,curr=root;
+        while(curr!=null){
+            TreeNode leftnode = curr.left;
+            if(leftnode==null){
+                if(prev!=null && prev.val>=curr.val){
+                    if(a==null) a=prev;
+                    b=curr;
+                }
+                prev = curr;
+                curr = curr.right;
+            }else{
+                while(leftnode.right!=null && leftnode.right!=curr){
+                    leftnode = leftnode.right;
+                }
+                if(leftnode.right==null){
+                    leftnode.right=curr;
+                    curr = curr.left;
+                }else{
+                    leftnode.right=null;
+                    if(prev!=null && prev.val>=curr.val){
+                        if(a==null) a=prev;
+                        b=curr;
+                    }
+                    prev = curr;
+                    curr = curr.right;
+                }
             }
-              second=root; 
         }
-        prev=root;
-        inorder(root.right);
+        if(a!=null){
+            int temp=a.val;
+            a.val=b.val;
+            b.val=temp;
+        }
     }
 }
