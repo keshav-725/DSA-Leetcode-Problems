@@ -52,8 +52,8 @@ class Solution {
             if(grid[i][j] == 1)
                 return true;
 
-            i += move[mode][1];
-            j += move[mode][0];            
+            i += move[mode][0];
+            j += move[mode][1];            
         }
         
         return false;
