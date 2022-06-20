@@ -49,10 +49,12 @@ class WordDictionary {
             if(curr.contains(ch)==false) return false;
            return search(word,idx+1,curr.get(ch));
         }else{
-            for(char chn='a';chn<='z';chn++){
+            
+        }
+        
+        for(char chn='a';chn<='z';chn++){
             if(curr.contains(chn)==false) continue;
             if(search(word,idx+1,curr.get(chn))) return true;
-        }   
         }
         return false;
     }
