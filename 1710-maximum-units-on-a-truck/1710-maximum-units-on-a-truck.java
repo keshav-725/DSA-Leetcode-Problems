@@ -1,8 +1,8 @@
 class Solution {
     public int maximumUnits(int[][] box, int truckSize) {
-        Arrays.sort(box,(x,y)->x[1]-y[1]);
+        Arrays.sort(box,(x,y)->y[1]-x[1]);
         int maxunit=0;
-        for(int i=box.length-1;i>=0;i--){
+        for(int i=0;i<box.length;i++){
             int val = box[i][0];
             if(truckSize<=val){
                 maxunit += truckSize*box[i][1];
