@@ -1,57 +1,25 @@
 class Solution {
-    public int numMatchingSubseq(String s, String[] words) {
-        
-        HashMap<Character, List<Integer>> positionmap = new HashMap<>();
-        
-        for (int i = 0; i < s.length(); i++) {
-            // should not be a integer, but a list of integer because of duplicate char exists
-            if (!positionmap.containsKey(s.charAt(i))) {
-                positionmap.put(s.charAt(i), new ArrayList<Integer>());
-            }
-            positionmap.get(s.charAt(i)).add(i);
+    public static int numMatchingSubseq(String S, String[] words) {
+        Map<Character, Deque<String>> map = new HashMap<>();
+        for (char c = 'a'; c <= 'z'; c++) {
+            map.putIfAbsent(c, new LinkedList<String>());
         }
-        
+        for (String word : words) {
+            map.get(word.charAt(0)).addLast(word);
+        }
 
         int count = 0;
-        for (String w: words) {
-            // check every word in the String[]:
-            int prev = -1;
-            boolean found = false;
-            int j = 0;
-            outer:
-            for (j = 0; j < w.length(); j++) {
-                // check every char in the current word w:
-                boolean has = false;
-                char c = w.charAt(j);
-                
-                if (positionmap.containsKey(c)) {
-                    List<Integer> l = positionmap.get(c);
-                    
-                    inner:
-                    for (int i: l) {
-                        if (i > prev) {
-                            // means current char c in this word w meets requirement:
-                            has = true;
-                            prev = i;
-                            break inner;
-                        }
-                    }
+        for (char c : S.toCharArray()) {
+            Deque<String> queue = map.get(c);
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                String word = queue.removeFirst();
+                if (word.length() == 1) {
+                    count++;
                 } else {
-                    // if char c not found in the map, directly break the word w loop(outter loop)
-                    break outer;
-                }
-                if (has == false) {
-                    break outer;
-                } else {
-                    found = true;
+                    map.get(word.charAt(1)).addLast(word.substring(1));
                 }
             }
-            if (found == true && j == w.length()) {
-                // see the j has reach the end of the word,
-                // means check if we have checked every char in the word
-                count++;
-            }
-
         }
         return count;
     }
