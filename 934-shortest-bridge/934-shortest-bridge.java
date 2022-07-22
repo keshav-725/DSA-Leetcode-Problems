@@ -1,56 +1,59 @@
 class Solution {
-    public class Pair{
+    class Pair{
         int x;
         int y;
-        Pair(int x,int y){
-            this.x=x;
+        int dist;
+        Pair(int x,int y,int dist){
+            this.x = x;
             this.y = y;
+            this.dist = dist;
         }
     }
-    int [][]dir = {{0,1},{1,0},{-1,0},{0,-1}};
     public int shortestBridge(int[][] grid) {
+        int ans = 0;
+        LinkedList<Pair> queue = new LinkedList<>();
         boolean [][]visited = new boolean[grid.length][grid[0].length];
-        LinkedList<Pair> pq = new LinkedList<>();
         boolean flag = false;
         for(int i=0;i<grid.length;i++){
             for(int j=0;j<grid[0].length;j++){
                 if(grid[i][j]==1){
-                    getAllConnectedLand(i,j,grid,visited,pq);
+                    addToQueue(grid,visited,queue,i,j);
                     flag = true;
                     break;
                 }
             }
             if(flag==true) break;
         }
-        int level=0;
-        while(pq.size()>0){
-            int size = pq.size();
-            while(size-->0){
-                Pair rm = pq.removeFirst();
-                for(int i=0;i<4;i++){
-                    int rowdir = rm.x + dir[i][0];
-                    int coldir = rm.y + dir[i][1];
-                    
-                    if(rowdir<0 || coldir<0 || rowdir>=grid.length || coldir>=grid[0].length || visited[rowdir][coldir]==true){
-                        continue;
-                    }else{
-                        if(grid[rowdir][coldir]==1) return level;
-                        pq.addLast(new Pair(rowdir,coldir));
-                        visited[rowdir][coldir]=true;
-                    }
+        while(queue.size()>0){
+            Pair rem = queue.removeFirst();
+            if(grid[rem.x][rem.y]==1){
+                ans = rem.dist;
+                break;
+            }
+            for(int i=0;i<4;i++){
+                int rowdash = rem.x + dir[i][0];
+                int coldash = rem.y + dir[i][1];
+                
+                if(rowdash>=0 && coldash>=0 && rowdash<grid.length && coldash<grid[0].length && visited[rowdash][coldash]==false){
+                    visited[rowdash][coldash] = true;
+                    queue.addLast(new Pair(rowdash,coldash,rem.dist+1));
                 }
             }
-            level++;
         }
-        return -1;
+        return ans-1;
     }
-    public void getAllConnectedLand(int i,int j,int [][]grid,boolean [][]visited,LinkedList<Pair> pq){
-        if(i<0 || j<0 || i>=grid.length || j>= grid[0].length || grid[i][j]==0 || visited[i][j]==true) return;
-        visited[i][j]=true;
-        pq.add(new Pair(i,j));
-        getAllConnectedLand(i-1,j,grid,visited,pq);
-        getAllConnectedLand(i+1,j,grid,visited,pq);
-        getAllConnectedLand(i,j-1,grid,visited,pq);
-        getAllConnectedLand(i,j+1,grid,visited,pq);
+    int [][]dir = {{-1,0},{0,-1},{1,0},{0,1}};
+    public void addToQueue(int[][] grid,boolean [][]visited,LinkedList<Pair> queue,int row,int col){
+        queue.add(new Pair(row,col,0));
+        grid[row][col]=-1;
+        visited[row][col]=true;
+        for(int i=0;i<4;i++){
+            int rowdash = row + dir[i][0];
+            int coldash = col + dir[i][1];
+            
+            if(rowdash>=0 && coldash>=0 && rowdash<grid.length && coldash<grid[0].length && visited[rowdash][coldash]==false && grid[rowdash][coldash]==1){
+                addToQueue(grid,visited,queue,rowdash,coldash);
+            }
+        }
     }
 }
