@@ -3,14 +3,13 @@ class Solution {
         if(parent[x]==x) return x;
         
         int res = find(parent,parent[x]);
-        parent[x]=res;
+        parent[x] = res;
         return res;
     }
     public void union(int lx,int ly,int []parent,int []rank){
-        
         if(rank[lx]<rank[ly]){
             parent[lx]=ly;
-        }else if(rank[ly]<rank[lx]){
+        }else if(rank[lx]>rank[ly]){
             parent[ly]=lx;
         }else{
             parent[lx]=ly;
