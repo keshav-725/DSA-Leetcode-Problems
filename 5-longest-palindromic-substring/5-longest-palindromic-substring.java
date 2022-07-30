@@ -22,6 +22,7 @@ class Solution {
                 }
                 if(dp[i][j]==1 && maxlen<g+1){
                     ans = s.substring(i,j+1);
+                    maxlen = g+1;
                 }
             }
         }
