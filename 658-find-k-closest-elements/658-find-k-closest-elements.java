@@ -1,40 +1,27 @@
 class Solution {
-    public int lowerbound(int []arr,int target){
-        int left = 0;
-        int right = arr.length-1;
-        int ans=arr.length;
-        while(left<=right){
-            int mid = left + (right-left)/2;
-            if(arr[mid]>=target){
-                ans = mid;
-                right = mid-1;
-            }else{
-                left = mid+1;
-            }
+    class Pair implements Comparable<Pair>{
+        int ival;
+        int diff;
+        Pair(int ival,int diff){
+            this.ival = ival;
+            this.diff = diff;
         }
-        return ans;
+        public int compareTo(Pair o){
+            if(this.diff==o.diff){
+                return this.ival-o.ival;
+            }
+            return this.diff - o.diff;
+        }
     }
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int rindex = lowerbound(arr,x);
-        int lindex = rindex-1;
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for(int i=0;i<arr.length;i++){
+            pq.add(new Pair(arr[i],Math.abs(x-arr[i])));
+        }
         List<Integer> list = new ArrayList<>();
-        while(k>0){
-            if(lindex>=0 && rindex<arr.length){
-                if((x-arr[lindex])<=(arr[rindex]-x)){
-                    list.add(arr[lindex]);
-                    lindex--;
-                }else{
-                    list.add(arr[rindex]);
-                    rindex++;
-                }
-            }else if(lindex>=0){
-                list.add(arr[lindex]);
-                lindex--;
-            }else if(rindex<arr.length){
-                list.add(arr[rindex]);
-                rindex++;
-            }
-            k--;
+        while(k-->0){
+            Pair rem = pq.poll();
+            list.add(rem.ival);
         }
         Collections.sort(list);
         return list;
