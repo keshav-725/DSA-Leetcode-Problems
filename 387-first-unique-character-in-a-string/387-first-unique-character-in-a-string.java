@@ -13,4 +13,5 @@ class Solution {
         }
         return -1;
     }
+    //https://leetcode.com/problems/first-unique-character-in-a-string/discuss/86367/Simple-Solution-Single-Pass
 }
