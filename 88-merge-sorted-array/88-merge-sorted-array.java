@@ -5,7 +5,7 @@ class Solution {
         }
         int gap = (int)Math.ceil((n+m)/2.0);
     
-    while(gap>=1){
+    for(;gap>=1;gap=(int)Math.ceil(gap/2.0)){
         for(int i=0,j=gap;j<m+n;i++,j++){
             if(nums1[i]>nums1[j]){
                 int temp = nums1[i];
@@ -14,7 +14,6 @@ class Solution {
             }
         }
         if(gap==1) break;
-        gap=(int)Math.ceil(gap/2.0);
     }
     }
 }
