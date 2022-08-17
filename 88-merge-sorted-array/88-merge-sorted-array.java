@@ -1,25 +1,20 @@
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-        int len = nums1.length-1;
-        while(m>0 && n>0){
-            if(nums1[m-1]>nums2[n-1]){
-                nums1[len]=nums1[m-1];
-                m--;
-            }else{
-                nums1[len] = nums2[n-1];
-                n--;
+        for(int i=m;i<m+n;i++){
+            nums1[i] = nums2[i-m];
+        }
+        int gap = (int)Math.ceil((n+m)/2.0);
+    
+    while(gap>=1){
+        for(int i=0,j=gap;j<m+n;i++,j++){
+            if(nums1[i]>nums1[j]){
+                int temp = nums1[i];
+                nums1[i]=nums1[j];
+                nums1[j]=temp;
             }
-            len--;
         }
-        while(m>0){
-            nums1[len]=nums1[m-1];
-            m--;
-            len--;
-        }
-        while(n>0){
-            nums1[len]=nums2[n-1];
-            n--;
-            len--;
-        }
+        if(gap==1) break;
+        gap=(int)Math.ceil(gap/2.0);
+    }
     }
 }
