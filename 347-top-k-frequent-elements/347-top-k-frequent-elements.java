@@ -1,33 +1,30 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        PriorityQueue<Pair> pq = new PriorityQueue<>(Collections.reverseOrder());
         HashMap<Integer,Integer> map = new HashMap<>();
-        
         for(int i=0;i<nums.length;i++){
-            int num = nums[i];
-            map.put(num,map.getOrDefault(num,0)+1);
+            map.put(nums[i],map.getOrDefault(nums[i],0)+1);
         }
-        for(int key:map.keySet()){
-            pq.add(new Pair(key,map.get(key)));
+        ArrayList<Integer>[] list = new ArrayList[nums.length+1];
+        
+        for(int i=0;i<list.length;i++){
+            list[i] = new ArrayList<>();
         }
+        
+        for(int key : map.keySet()){
+            int val = map.get(key);
+            list[val].add(key);
+        }
+        
         int []ans = new int[k];
-        for(int i=0;i<k;i++){
-            Pair rem = pq.poll();
-            ans[i] = rem.num;
+        int idx=0;
+        for(int i=list.length-1;i>=0;i--){
+            for(int j=0;j<list[i].size();j++){
+                ans[idx]=list[i].get(j);
+                idx++;
+                if(idx==k) break;
+            }
+            if(idx==k) break;
         }
         return ans;
-    }
-    public class Pair implements Comparable<Pair>{
-        int num;
-        int count;
-        
-        Pair(int num,int count){
-            this.num = num;
-            this.count = count;
-        }
-        
-        public int compareTo(Pair other){
-            return this.count-other.count;
-        }
     }
 }
