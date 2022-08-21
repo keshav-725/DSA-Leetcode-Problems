@@ -12,12 +12,10 @@ class Solution {
             return;
         }
         for(int i=0;i<nums.length;i++){
-            if(!set.contains(nums[i])){
+            if(!list.contains(nums[i])){
                 list.add(nums[i]);
-                set.add(nums[i]);
                 getPermutation(nums,ans,list,set,idx+1);
                 list.remove(list.size()-1);
-                set.remove(nums[i]);
             }
             
         }
