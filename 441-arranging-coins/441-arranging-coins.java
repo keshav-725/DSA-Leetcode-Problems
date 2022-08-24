@@ -1,13 +1,20 @@
 class Solution {
     public int arrangeCoins(int n) {
         long sum = 0;
-        int i=0;
-        while(sum<n){
-            int val = i+1;
-            sum += val;
-            i++;
+        long left =1,right = n,ans=1;
+        while(left<=right){
+            long mid = left + (right-left)/2;
+            
+            sum = ((mid)*(mid+1))/2;
+            
+            if(sum == n) return (int)mid;
+            else if(sum>n){
+                right = mid-1;
+            }else{
+                left = mid+1;
+                ans = mid;
+            }
         }
-        if(sum==n) return i;
-        return i-1;
+        return (int)ans;
     }
 }
