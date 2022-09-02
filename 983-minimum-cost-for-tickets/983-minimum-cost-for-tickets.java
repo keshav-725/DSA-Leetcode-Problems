@@ -1,6 +1,5 @@
 class Solution {
     public int mincostTickets(int[] days, int[] costs) {
-        Arrays.sort(days);
         int n = days.length;
         int lday = days[n-1];
         int []dp = new int[lday+1];
