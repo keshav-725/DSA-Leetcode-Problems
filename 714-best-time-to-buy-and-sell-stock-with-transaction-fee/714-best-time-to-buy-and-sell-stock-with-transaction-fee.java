@@ -1,13 +1,14 @@
 class Solution {
     public int maxProfit(int[] prices, int fee) {
         int n = prices.length;
-        int [][]dp = new int[n][2];
-        dp[0][0] = -prices[0];
-        dp[0][1] = 0;
+        int obp = -prices[0];
+        int osp = 0;
         for(int i=1;i<n;i++){
-            dp[i][0] = Math.max(dp[i-1][1]-prices[i],dp[i-1][0]);
-            dp[i][1] = Math.max(dp[i-1][0]+prices[i]-fee,dp[i-1][1]);
+            int nbp = Math.max(osp-prices[i],obp);
+            int nsp = Math.max(obp+prices[i]-fee,osp);
+            obp = nbp;
+            osp = nsp;
         }
-        return dp[n-1][1];
+        return osp;
     }
 }
