@@ -4,13 +4,13 @@ class Solution {
             if(a[0]==b[0]) return b[1]-a[1];
             return a[0]-b[0];
         });
-        TreeSet<Integer> set = new TreeSet<>();
+        int max = props[props.length-1][1];
         int count = 0;
-        for(int i=props.length-1;i>=0;i--){
-            if(set.higher(props[i][1])!=null){
+        for(int i=props.length-2;i>=0;i--){
+            if(props[i][1]<max){
                 count++;
             }
-            set.add(props[i][1]);
+            max = Math.max(max,props[i][1]);
         }
         return count;
     }
