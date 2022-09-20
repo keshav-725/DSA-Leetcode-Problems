@@ -1,30 +1,28 @@
 class FreqStack {
+
     HashMap<Integer,Integer> map1;
-    HashMap<Integer,Stack<Integer>> map2;
-    int mfreq;
+    HashMap<Integer,ArrayList<Integer>> map2;
+    int max = Integer.MIN_VALUE;
     public FreqStack() {
         map1 = new HashMap<>();
         map2 = new HashMap<>();
-        mfreq = 0;
     }
     
     public void push(int val) {
         map1.put(val,map1.getOrDefault(val,0)+1);
-        int freq = map1.get(val);
-        map2.putIfAbsent(freq,new Stack<Integer>());
-        map2.get(freq).push(val);
-        mfreq = Math.max(mfreq,freq);
-        //System.out.println(mfreq);
+        int num = map1.get(val);
+        map2.putIfAbsent(num,new ArrayList<>());
+        map2.get(num).add(val);
+        max = Math.max(max,num);
     }
     
     public int pop() {
-        int temp = map2.get(mfreq).pop();
-        if(map2.get(mfreq).size()==0){
-            map2.remove(mfreq);
-            mfreq--;
-        }
-        map1.put(temp,map1.get(temp)-1);
-        return temp; 
+        ArrayList<Integer> temp = map2.get(max);
+        int ans = temp.get(temp.size()-1);
+        temp.remove(temp.size()-1);
+        if(temp.size()==0) max--;
+        map1.put(ans,map1.getOrDefault(ans,0)-1);
+        return ans;
     }
 }
 
