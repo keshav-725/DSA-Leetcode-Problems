@@ -1,7 +1,7 @@
 class Solution {
     public int maxCoins(int[] nums) {
         int n = nums.length;
-        Integer [][]dp = new Integer[n][n];
+        int [][]dp = new int[n][n];
         for(int g=0;g<n;g++){
             for(int i=0,j=g;j<n;i++,j++){
                 int max = Integer.MIN_VALUE;
