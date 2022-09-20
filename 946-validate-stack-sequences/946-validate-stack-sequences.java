@@ -4,11 +4,7 @@ class Solution {
         int i=0,j=0;
         while(i<pushed.length){
             
-            while(i<pushed.length && popped[j]!=pushed[i]){
-                st.push(pushed[i]);
-                i++;
-            }
-            if(i<pushed.length) st.push(pushed[i]);
+            st.push(pushed[i]);
             i++;
             
             while(st.size()>0 && j<popped.length && popped[j]==st.peek()){
