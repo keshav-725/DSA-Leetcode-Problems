@@ -1,39 +1,43 @@
 class Solution {
+    class Pair{
+        int route;
+        int time;
+        Pair(int route,int time){
+            this.route = route;
+            this.time = time;
+        }
+    }
     public int numBusesToDestination(int[][] routes, int source, int target) {
         HashMap<Integer,ArrayList<Integer>> map = new HashMap<>();
+        if(source==target) return 0;
         for(int i=0;i<routes.length;i++){
             for(int j=0;j<routes[i].length;j++){
-                map.putIfAbsent(routes[i][j],new ArrayList<Integer>());
+                map.putIfAbsent(routes[i][j],new ArrayList<>());
                 map.get(routes[i][j]).add(i);
             }
         }
-        //System.out.println(map);
-        HashSet<Integer> busstop = new HashSet<>();
-        HashSet<Integer> busno = new HashSet<>();
-        
-        LinkedList<Integer> queue = new LinkedList<>();
-        int level = -1;
-        queue.add(source);
-        
-        while(queue.size()>0){
-            level++;
-            int s = queue.size();
-            while(s-->0){
-                int rem = queue.removeFirst();
-                if(rem==target){
-                    return level;
+        LinkedList<Pair> queue = new LinkedList<>();
+        queue.addLast(new Pair(source,1));
+        boolean []visited = new boolean[routes.length];
+        for(int val : map.get(source)){
+            
+            if(visited[val]==false){
+                visited[val]=true;
+                for(int route:routes[val]){
+                    queue.addLast(new Pair(route,1));
                 }
-                for(int busnum : map.get(rem)){
-                    if(busno.contains(busnum)){
-                        continue;
-                    }else{
-                        for(int busstand : routes[busnum]){
-                            if(busstop.contains(busstand)==false){
-                                busstop.add(busstand);
-                                queue.addLast(busstand);
-                            }
-                        }
-                        busno.add(busnum);
+            }
+        }
+        while(queue.size()>0){
+            Pair rem = queue.removeFirst();
+            if(rem.route==target){
+                return rem.time;
+            }
+            for(int val : map.get(rem.route)){
+                if(visited[val]==false){
+                    visited[val]=true;
+                    for(int route:routes[val]){
+                        queue.addLast(new Pair(route,rem.time+1));
                     }
                 }
             }
