@@ -1,39 +1,39 @@
 class Solution {
-    public int[] findOrder(int numcourses, int[][] pre) {
-        ArrayList<Integer>[] list = new ArrayList[numcourses];
-        for(int i=0;i<numcourses;i++){
-            list[i] = new ArrayList<Integer>();
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        ArrayList<Integer>[] list= new ArrayList[numCourses];
+        for(int i=0;i<numCourses;i++){
+            list[i] = new ArrayList<>();
         }
-        for(int i=0;i<pre.length;i++){
-            int []temp = pre[i];
-            list[temp[1]].add(temp[0]);
+        for(int i=0;i<prerequisites.length;i++){
+            int second = prerequisites[i][0];
+            int first = prerequisites[i][1];
+            
+            list[first].add(second);
         }
-        int []in = new int[numcourses];
-        for(int i=0;i<numcourses;i++){
-            for(int n : list[i]){
-                in[n]++;
+        int []in = new int[numCourses];
+        
+        for(int i=0;i<numCourses;i++){
+            for(int val : list[i]){
+                in[val]++;
             }
         }
-        int length = 0;
         LinkedList<Integer> queue = new LinkedList<>();
-        for(int i=0;i<numcourses;i++){
+        int []ans = new int[numCourses];
+        for(int i=0;i<numCourses;i++){
             if(in[i]==0){
                 queue.addLast(i);
             }
         }
-        int []ans = new int[numcourses];
+        int count  = 0;
         while(queue.size()>0){
-            Integer rem = queue.removeFirst();
-            ans[length] = rem;
-            length++;
-            for(int n : list[rem]){
-                in[n]--;
-                if(in[n]==0){
-                    queue.addLast(n);
-                }
+            int rem = queue.removeFirst();
+            ans[count++] = rem;            
+            for(int val : list[rem]){
+                in[val]--;
+                if(in[val]==0) queue.addLast(val);
             }
         }
-        if(length==numcourses) return ans;
-        return new int[]{};
+        if(count<numCourses) return new int[]{};
+        return ans;
     }
 }
