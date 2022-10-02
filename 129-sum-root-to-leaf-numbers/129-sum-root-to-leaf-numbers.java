@@ -17,16 +17,17 @@ class Solution {
     int sum;
     public int sumNumbers(TreeNode root) {
         sum=0;
-        helper(root,"");
+        helper(root,0);
         return sum;
     }
-    public void helper(TreeNode root,String s){
+    public void helper(TreeNode root,int temp){
         if(root==null) return;
+        temp = temp * 10 + root.val;
+        // System.out.println(temp);
         if(root.left==null && root.right==null){
-            s += root.val;
-            sum += Integer.parseInt(s);
+            sum += temp;
         }
-        helper(root.left,s+root.val);
-        helper(root.right,s+root.val);
+        helper(root.left,temp);
+        helper(root.right,temp);
     }
 }
