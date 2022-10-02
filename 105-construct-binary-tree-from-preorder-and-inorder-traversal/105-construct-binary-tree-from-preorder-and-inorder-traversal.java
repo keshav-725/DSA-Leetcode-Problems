@@ -15,20 +15,19 @@
  */
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        TreeNode root = buildTree_(preorder,inorder,0,preorder.length-1,0,inorder.length-1);
-        return root;
+        return helper(preorder,inorder,0,inorder.length-1,0,inorder.length-1);
     }
-    public TreeNode buildTree_(int[] preorder, int[] inorder,int pleft,int pright,int ileft,int iright){
-        if(pleft>pright || ileft>iright) return null;
-        TreeNode root = new TreeNode(preorder[pleft]);
-        int center=ileft;
-        while(inorder[center]!=preorder[pleft]){
-            center++;
-        }
-        int num = center-ileft;
-        root.left = buildTree_(preorder,inorder,pleft+1,pleft+num,ileft,center-1);
-        root.right = buildTree_(preorder,inorder,pleft+num+1,pright,center+1,iright);
+    public TreeNode helper(int[] preorder, int[] inorder,int li,int ri,int lp,int rp){
+        if(li>ri || lp>rp) return null;
         
-        return root;
+        TreeNode node = new TreeNode(preorder[lp],null,null);
+        int i=li,count=0;
+        for(;i<=ri;i++){
+            if(preorder[lp]==inorder[i]) break;
+            count++;
+        }
+        node.left = helper(preorder,inorder,li,i,lp+1,lp+count);
+        node.right = helper(preorder,inorder,i+1,ri,lp+count+1,rp);
+        return node;
     }
 }
