@@ -18,7 +18,7 @@ class Solution {
         TreeNode prev=null,curr=root,a=null,b=null;
         while(curr!=null){
             if(curr.left==null){
-                if(prev!=null && prev.val>=curr.val){
+                if(prev!=null && prev.val>curr.val){
                     if(a==null) a=prev;
                     b=curr;
                 }
@@ -31,7 +31,7 @@ class Solution {
                     ln.right = curr;
                     curr = curr.left;
                 }else{
-                    if(prev!=null && prev.val>=curr.val){
+                    if(prev!=null && prev.val>curr.val){
                         if(a==null) a=prev;
                         b=curr;
                     }
