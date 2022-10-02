@@ -15,10 +15,9 @@
  */
 class Solution {
     public void recoverTree(TreeNode root) {
-        TreeNode prev=null,a=null,b=null,curr=root;
+        TreeNode prev=null,curr=root,a=null,b=null;
         while(curr!=null){
-            TreeNode leftnode = curr.left;
-            if(leftnode==null){
+            if(curr.left==null){
                 if(prev!=null && prev.val>=curr.val){
                     if(a==null) a=prev;
                     b=curr;
@@ -26,26 +25,25 @@ class Solution {
                 prev = curr;
                 curr = curr.right;
             }else{
-                while(leftnode.right!=null && leftnode.right!=curr){
-                    leftnode = leftnode.right;
-                }
-                if(leftnode.right==null){
-                    leftnode.right=curr;
+                TreeNode ln = curr.left;
+                while(ln.right!=null && ln.right!=curr) ln=ln.right;
+                if(ln.right==null){
+                    ln.right = curr;
                     curr = curr.left;
                 }else{
-                    leftnode.right=null;
                     if(prev!=null && prev.val>=curr.val){
                         if(a==null) a=prev;
                         b=curr;
                     }
-                    prev = curr;
+                    ln.right=null;
+                    prev=curr;
                     curr = curr.right;
                 }
             }
         }
         if(a!=null){
-            int temp=a.val;
-            a.val=b.val;
+            int temp = a.val;
+            a.val = b.val;
             b.val=temp;
         }
     }
