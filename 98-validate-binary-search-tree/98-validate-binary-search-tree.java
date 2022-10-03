@@ -14,31 +14,23 @@
  * }
  */
 class Solution {
+    boolean check;
     public boolean isValidBST(TreeNode root) {
-        TreeNode curr = root,prev = null;
+        check=true;
+        helper(root);
+        return check;
+    }
+    public long[] helper(TreeNode root){
+        if(root==null) return new long[]{Long.MAX_VALUE,Long.MIN_VALUE};
         
-        while(curr!=null){
-            if(curr.left==null){
-                if(prev!=null && prev.val>=curr.val) return false;
-                prev=curr;
-                curr = curr.right;
-            }    
-            else{
-                TreeNode ln = curr.left;
-                while(ln.right!=null && ln.right!=curr){
-                    ln = ln.right;
-                }
-                if(ln.right==null){
-                    ln.right = curr;
-                    curr = curr.left;
-                }else{
-                    if(prev!=null && prev.val>=curr.val) return false;
-                    prev = curr;
-                    ln.right=null;
-                    curr = curr.right;
-                }
-            }
-        }
-        return true;
+        long[] left = helper(root.left);
+        long[] right = helper(root.right);
+        
+        if(left[1]>=root.val || right[0]<=root.val) check=false;
+        
+        long lmin = Math.min(left[0],root.val);
+        long rmax = Math.max(right[1],root.val);
+        
+        return new long[]{lmin,rmax};
     }
 }
