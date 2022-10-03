@@ -15,20 +15,19 @@
  */
 class Solution {
     public TreeNode bstFromPreorder(int[] preorder) {
-        return bstFromPreorder_(preorder,0,preorder.length-1);
+        return helper(preorder,0,preorder.length-1);
     }
-    public TreeNode bstFromPreorder_(int []preorder,int si,int ei){
-        if(si>ei) return null;
-        TreeNode root = new TreeNode(preorder[si]);
+    public TreeNode helper(int []preorder,int li,int ri){
+        if(li>ri) return null;
         
-        int num = preorder[si];
-        int n = si+1;
-        while(n<=ei && num>preorder[n]) n++;
+        TreeNode node = new TreeNode(preorder[li]);
         
-        int count = n-si;
-        root.left = bstFromPreorder_(preorder,si+1,si+count-1);
-        root.right = bstFromPreorder_(preorder,si+count,ei);
+        int idx = li+1;
+        while(idx<=ri && preorder[idx]<preorder[li]) idx++;
         
-        return root;
+        node.left = helper(preorder,li+1,idx-1);
+        node.right = helper(preorder,idx,ri);
+        
+        return node;
     }
 }
