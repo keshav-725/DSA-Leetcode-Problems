@@ -23,21 +23,22 @@ class Node {
 
 class Solution {
     public Node connect(Node root) {
-        if(root==null) return root;
-        LinkedList<Node> queue = new LinkedList<>();
-        queue.add(root);
-        while(queue.size()>0){
-            int size = queue.size();
-            Node prev = null;
-            for(int i=0;i<size;i++){
-                Node rem = queue.removeFirst();
-                if(i>0){
-                    rem.next = prev;
+        Node p1 = root;
+        while(p1!=null){
+            Node p2 = p1;
+            
+            while(p2!=null){
+                if(p2.left!=null){
+                    p2.left.next = p2.right;
                 }
-                if(rem.right!=null) queue.addLast(rem.right);
-                if(rem.left!=null) queue.addLast(rem.left);
-                prev = rem;
+
+                if(p2.right!=null && p2.next!=null){
+                    p2.right.next = p2.next.left;
+                }
+                p2=p2.next;
             }
+            
+            p1 = p1.left;
         }
         return root;
     }
