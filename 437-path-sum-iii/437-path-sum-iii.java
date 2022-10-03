@@ -16,29 +16,24 @@
 class Solution {
     int count;
     public int pathSum(TreeNode root, int targetSum) {
-        ArrayList<TreeNode> list = new ArrayList<>();
-        getAllNode(root,list);
+        HashMap<Integer,Integer> map = new HashMap<>();
         count=0;
-        for(int i=0;i<list.size();i++){
-            travel2(list.get(i),0,targetSum);
-        }
+        map.put(0,1);
+        helper(root,map,0,targetSum);
         return count;
     }
-    public void travel2(TreeNode root,long sum,int tsum){
+    public void helper(TreeNode root,HashMap<Integer,Integer> map,int sum,int tsum){
         if(root==null) return;
         
-        if(sum + root.val==tsum){
-            count++;
+        int mod = 1000000007;
+        
+        int vsum = ((sum%mod) + (root.val%mod))%mod;
+        if(map.containsKey(vsum-tsum)){
+            count += map.get(vsum-tsum);
         }
-        travel2(root.left,sum+root.val,tsum);
-        travel2(root.right,sum+root.val,tsum);
-        
-    }
-    public void getAllNode(TreeNode root,ArrayList<TreeNode> list){
-        if(root==null) return;
-        
-        list.add(root);
-        getAllNode(root.left,list);
-        getAllNode(root.right,list);
+        map.put(vsum,map.getOrDefault(vsum,0)+1);
+        helper(root.left,map,vsum,tsum);
+        helper(root.right,map,vsum,tsum);
+        map.put(vsum,map.get(vsum)-1);
     }
 }
