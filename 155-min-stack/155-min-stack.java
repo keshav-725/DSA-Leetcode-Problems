@@ -1,29 +1,39 @@
 class MinStack {
-    TreeMap<Integer,Integer> map;
-    Stack<Integer> st;
+    public class Node{
+        int val;
+        int min;
+        Node next;
+        
+        Node(int val,int min,Node next){
+            this.val = val;
+            this.min = min;
+            this.next = next;
+        }
+    }
+    Node head;
+
     public MinStack() {
-        st=new Stack<>();
-        map = new TreeMap<>();
+        head=null;
     }
     
     public void push(int val) {
-        map.put(val,map.getOrDefault(val,0)+1);
-        st.push(val);
+        if(head==null){
+            head = new Node(val,val,null);
+        }else{
+            head = new Node(val,Math.min(val,head.min),head);
+        }
     }
     
     public void pop() {
-        int val = st.pop();
-        map.put(val,map.get(val)-1);
-        if(map.get(val)==0) map.remove(val);
-        
+        head = head.next;
     }
     
     public int top() {
-        return st.peek();
+        return head.val;
     }
     
     public int getMin() {
-        return map.firstKey();
+        return head.min;
     }
 }
 
