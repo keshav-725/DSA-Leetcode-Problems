@@ -1,36 +1,48 @@
 class Solution {
+    public int find(int []parent,int x){
+        if(parent[x]==x) return x;
+        
+        int pox = find(parent,parent[x]);
+        parent[x] = pox;
+        return pox;
+    }
+    public void union(int []parent,int []rank,int lx,int ly){
+        if(rank[lx]<rank[ly]){
+            parent[lx]=ly;
+        }else if(rank[lx]>rank[ly]){
+            parent[ly]=lx;
+        }else{
+            parent[lx]=ly;
+            rank[ly]++;
+        }
+    }
     public int findCircleNum(int[][] isConnected) {
-        HashMap<Integer,ArrayList<Integer>> graph = new HashMap<>();
+        int n = isConnected.length;
+        int []parent = new int[n];
+        int []rank = new int[n];
+        
+        for(int i=0;i<parent.length;i++){
+            parent[i]=i;
+            rank[i]=0;
+        }
+        
         for(int i=0;i<isConnected.length;i++){
             int []arr = isConnected[i];
             for(int j=0;j<arr.length;j++){
-                graph.putIfAbsent(i+1,new ArrayList<>());
-                graph.putIfAbsent(j+1,new ArrayList<>());
-                if(isConnected[i][j]==1 && i!=j){
-                    graph.get(i+1).add(j+1);
+                if(isConnected[i][j]==1){
+                    int lx = find(parent,i);
+                    int ly = find(parent,j);
+                    
+                    if(lx!=ly){
+                        union(parent,rank,lx,ly);
+                    }
                 }
             }
         }
-        // System.out.println(graph);
-        boolean []visited = new boolean[isConnected.length+1];
-        int count=0;
-        for(int i=1;i<isConnected.length+1;i++){
-            if(visited[i]==false){
-                count++;
-                dfs(graph,visited,i);
-            }
+        int count = 0;
+        for(int i=0;i<parent.length;i++){
+            if(parent[i]==i) count++;
         }
         return count;
-    }
-    public void dfs(HashMap<Integer,ArrayList<Integer>> graph,boolean []visited,int idx){
-        visited[idx]=true;
-        
-        if(graph.containsKey(idx)){
-            for(int val : graph.get(idx)){
-                if(visited[val]==false){
-                    dfs(graph,visited,val);
-                }
-            }
-        }
     }
 }
