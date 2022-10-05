@@ -22,11 +22,16 @@ class Solution {
     public void helper(TreeNode root){
         if(root==null) return;
         
-        helper(root.right);
-        helper(root.left);
+        TreeNode ol= root.left;
+        TreeNode or = root.right;
         
-        root.right = prev;
-        root.left=null;
-        prev=root;
+        if(prev!=null){
+            prev.left=null;
+            prev.right=root;
+        }
+        
+        prev= root;
+        helper(ol);
+        helper(or);
     }
 }
