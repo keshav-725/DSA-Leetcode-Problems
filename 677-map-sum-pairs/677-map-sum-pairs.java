@@ -1,36 +1,31 @@
 class MapSum {
-    public static class Node{
-        private Node []children = new Node[26];
-        private int freq = 0;
-        private int isEnd=0;
-        
+    class Node{
+        Node []children = new Node[26];
+        int sum = 0;
+        int isEnd = 0;
         public boolean contains(char ch){
             return (children[ch-'a']!=null);
         }
-        
         public Node get(char ch){
             return children[ch-'a'];
         }
         public void set(char ch){
-            children[ch-'a']=new Node();
+            children[ch-'a'] = new Node();
         }
-        public int getfreq(){
-            return this.freq;
+        public int getSum(){
+            return sum;
         }
-        public void setfreq(int val){
-            this.freq+=val;
+        public void setSum(int val){
+            sum = sum+val;
         }
-        public void decreasefreq(int val){
-            this.freq-=val;
+        public void replaceSum(int val){
+            sum = val;
         }
-        public void replacefreq(int val){
-            this.freq=val;
-        }
-        public int getend(){
+        public int getEnd(){
             return isEnd;
         }
         public void setEnd(int val){
-            this.isEnd=val;
+            isEnd=val;
         }
     }
     Node root;
@@ -38,44 +33,42 @@ class MapSum {
         root = new Node();
     }
     
-    public void insert(String words, int val) {
+    public void insert(String word, int val) {
         Node curr = root;
-        for(int i=0;i<words.length();i++){
-            char ch = words.charAt(i);
+        for(int i=0;i<word.length();i++){
+            char ch = word.charAt(i);
+            curr.setSum(val);
             if(curr.contains(ch)==false){
                 curr.set(ch);
             }
-            curr.setfreq(val);
             curr = curr.get(ch);
         }
-        if(curr.getend()!=0){
-            int value = curr.getend();
-            curr = root;
-            for(int i=0;i<words.length();i++){
-                char ch = words.charAt(i);
-                if(curr.contains(ch)==false){
-                    curr.set(ch);
-                }
-                curr.decreasefreq(value);
+        curr.setSum(val);
+        if(curr.getEnd()>0){
+            int tval = curr.getEnd();
+            curr=root;
+            for(int i=0;i<word.length();i++){
+                char ch = word.charAt(i);
+                curr.setSum(-tval);
                 curr = curr.get(ch);
             }
-            curr.replacefreq(val);
+            curr.setSum(-tval);
+            curr.setEnd(val);
         }else{
-            curr.setfreq(val);
             curr.setEnd(val);
         }
     }
     
-    public int sum(String prefix) {
+    public int sum(String word) {
         Node curr = root;
-        for(int i=0;i<prefix.length();i++){
-            char ch = prefix.charAt(i);
+        for(int i=0;i<word.length();i++){
+            char ch = word.charAt(i);
             if(curr.contains(ch)==false){
                 return 0;
             }
             curr = curr.get(ch);
         }
-        return curr.getfreq();
+        return curr.getSum();
     }
 }
 
