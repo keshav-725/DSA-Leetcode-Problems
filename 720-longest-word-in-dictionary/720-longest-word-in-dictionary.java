@@ -1,7 +1,8 @@
 class Solution {
-    public static class Node{
-        private Node []children = new Node[26];
-        private boolean isEnd=false;
+    class Node{
+        Node []children = new Node[26];
+        boolean isEnd = false;
+        
         public boolean contains(char ch){
             return (children[ch-'a']!=null);
         }
@@ -12,39 +13,44 @@ class Solution {
             children[ch-'a'] = new Node();
         }
         public boolean getEnd(){
-            return this.isEnd;
+            return isEnd;
+        }
+        public void setEnd(){
+            this.isEnd = true;
+        }
+    }
+    Node root;
+    String ans;
+    public String longestWord(String[] words) {
+        root = new Node();
+        ans="";
+        
+        for(int i=0;i<words.length;i++){
+            Node curr = root;
+            for(int j=0;j<words[i].length();j++){
+                char ch = words[i].charAt(j);
+                if(curr.contains(ch)==false){
+                    curr.set(ch);
+                }
+                curr = curr.get(ch);
+            }
+            curr.setEnd();
         }
         
-        public void setEnd(boolean isEnd){
-            this.isEnd = isEnd;
-        } 
-    }
-    public String max;
-    public void insert(String str,Node curr){
-        for(int j=0;j<str.length();j++){
-            char ch = str.charAt(j);
-            if(curr.contains(ch)==false){
-                curr.set(ch);
+        for(char ch='a';ch<='z';ch++){
+            Node curr = root;
+            if(curr.contains(ch)){
+                dfs(curr.get(ch),ch+"");
             }
-            curr = curr.get(ch);
         }
-        curr.setEnd(true);
-    }
-    public String longestWord(String[] words) {
-        Node root = new Node();
-        for(int i=0;i<words.length;i++){
-            String str = words[i];
-            insert(str,root);
-        }
-        max = "";
-        Node curr = root;
-        dfs(curr,"");
-        return max;
+        return ans;
     }
     public void dfs(Node curr,String res){
-        if(res.equals("")==false && curr.getEnd()==false) return;
-        if(max.length()<res.length()){
-            max=res;
+        if(curr.getEnd()==false) return;
+        if(curr.getEnd()){
+            if(ans.length()<res.length()){
+                ans = res;
+            }
         }
         for(char ch='a';ch<='z';ch++){
             if(curr.contains(ch)){
