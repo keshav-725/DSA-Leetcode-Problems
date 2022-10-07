@@ -47,6 +47,7 @@ class StreamChecker {
         return isp(sb.toString(),curr,0);
     }
     public boolean isp(String s,Node curr,int idx){
+        if(idx>=2000) return false;
         if(curr==null) return false;
         if(idx==s.length()){
             if(curr.getEnd()==true) return true;
