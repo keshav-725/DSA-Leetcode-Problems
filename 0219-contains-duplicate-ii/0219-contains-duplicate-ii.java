@@ -6,6 +6,7 @@ class Solution {
             if(map.containsKey(nums[i])){
                 int prev = map.get(nums[i]);
                 maxDiff = Math.min(maxDiff,(i-prev));
+                if(maxDiff<=k) return true;
                 map.put(nums[i],i);
             }else{
                 map.put(nums[i],i);
