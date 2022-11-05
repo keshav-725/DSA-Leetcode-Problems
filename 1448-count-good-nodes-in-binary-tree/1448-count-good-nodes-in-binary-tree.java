@@ -16,20 +16,19 @@
 class Solution {
     int ans;
     public int goodNodes(TreeNode root) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         ans=0;
-        helper(root,pq);
-        return ++ans;
+        helper(root,root.val);
+        return ans;
     }
-    public void helper(TreeNode root,PriorityQueue<Integer> pq){
+    public void helper(TreeNode root,int max){
         if(root==null) return;
         
-        if(pq.size()>0 && pq.peek()<=root.val) ans++;
-        pq.add(root.val);
+        if(max<=root.val) ans++;
         
-        helper(root.left,pq);
-        helper(root.right,pq);
+        int temp = Math.max(root.val,max);
         
-        pq.remove(root.val);
+        helper(root.left,temp);
+        helper(root.right,temp);
+        
     }
 }
