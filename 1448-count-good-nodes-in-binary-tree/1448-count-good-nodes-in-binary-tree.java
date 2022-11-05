@@ -14,18 +14,22 @@
  * }
  */
 class Solution {
-    private int count=0;
+    int ans;
     public int goodNodes(TreeNode root) {
-        goodNodes(root,root.val);
-        return count;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        ans=0;
+        helper(root,pq);
+        return ++ans;
     }
-    public void goodNodes(TreeNode root,int max){
+    public void helper(TreeNode root,PriorityQueue<Integer> pq){
         if(root==null) return;
-        int temp = Math.max(root.val,max);
-        if(temp<=root.val){
-            count++;   
-        }
-        goodNodes(root.left,temp);
-        goodNodes(root.right,temp);
+        
+        if(pq.size()>0 && pq.peek()<=root.val) ans++;
+        pq.add(root.val);
+        
+        helper(root.left,pq);
+        helper(root.right,pq);
+        
+        pq.remove(root.val);
     }
 }
