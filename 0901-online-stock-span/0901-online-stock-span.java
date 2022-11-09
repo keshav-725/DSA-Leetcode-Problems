@@ -1,33 +1,28 @@
 class StockSpanner {
-    
-    HashMap<Integer,ArrayList<Integer>> map;
-    Stack<Integer> st;
-    int count;
 
+    class Pair{
+        int idx;
+        int price;
+        Pair(int idx,int val){
+            this.idx = idx;
+            this.price = val;
+        }
+    }
+    private Stack<Pair> st;
+    private int count;
+    
     public StockSpanner() {
-        map = new HashMap<>();
         st = new Stack<>();
-        count=0;
+        count = 0;
     }
     
     public int next(int price) {
-        while(st.size()>0 && st.peek()<=price){
-            ArrayList<Integer> temp = map.get(st.peek());
-            temp.remove(temp.size()-1);
+        while(st.size()>0 && st.peek().price<=price){
             st.pop();
         }
         int ans;
-        if(st.size()==0){
-            ans = count+1;
-        }else{
-            ArrayList<Integer> temp = map.get(st.peek());
-            int idx = temp.get(temp.size()-1);
-            ans = count-idx;
-        }
-        st.push(price);
-        map.putIfAbsent(price,new ArrayList<>());
-        map.get(price).add(count);
-        count++;
+        ans = (st.size()==0) ? (count+1) : (count-st.peek().idx);
+        st.push(new Pair(count++,price));
         return ans;
     }
 }
