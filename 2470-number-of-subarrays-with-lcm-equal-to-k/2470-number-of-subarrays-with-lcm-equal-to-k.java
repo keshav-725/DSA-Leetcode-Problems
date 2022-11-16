@@ -25,6 +25,7 @@ class Solution {
                 if(lcmval==k){
                     ans++;
                 }
+                if(lcmval>k) break;
             }
         }
         return ans;
