@@ -11,7 +11,7 @@ class Solution {
         for(int i=0;i<nums.length;i++){
             int gcdval = nums[i];
             
-            for(int j=i;j<nums.length;j++){
+            for(int j=i;j<nums.length && nums[j]%k==0;j++){
                 gcdval = gcd(gcdval,nums[j]);
                 
                 if(gcdval==k){
