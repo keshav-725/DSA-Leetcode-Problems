@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 import java.util.*;
 import java.lang.*;
 import java.io.*;
@@ -21,7 +21,8 @@ class GFG
             System.out.println(ans);
        }
     }
-}// } Driver Code Ends
+}
+// } Driver Code Ends
 
 
 
@@ -32,34 +33,32 @@ class Solution
     public int minSwaps(int nums[])
     {
         // Code here
-        HashMap<Integer,Integer>map=new HashMap<>();
-       int temp[]=new int[nums.length];
-       int count=0;
-       for(int i=0;i<nums.length;i++){
-           temp[i]=nums[i];
-       }
-       Arrays.sort(temp);
-       for(int i=0;i<nums.length;i++){
-           map.put(nums[i],i);
-       }
-       for(int i=0;i<nums.length;i++){
-           int check=nums[i];
-           if(nums[i]!=temp[i]){
-               count++;
-               
-               // swaping element in array
-               swap(nums,i,map.get(temp[i]));
-               
-               //updating map elements
-               map.put(check,map.get(temp[i]));
-               map.put(temp[i],i);
-           }
-       }
-       return count;
+        int n = nums.length;
+        int []temp = Arrays.copyOfRange(nums,0,n);
+        
+        HashMap<Integer,Integer> map = new HashMap<>();
+        Arrays.sort(temp);
+        
+        for(int i=0;i<temp.length;i++){
+            map.put(nums[i],i);
+        }
+        int ans = 0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i] != temp[i]){
+                ans++;
+                int init = nums[i];
+                
+                swap(nums,i,map.get(temp[i]));
+                
+                map.put(init,map.get(temp[i]));
+                map.put(temp[i],i);
+            }
+        }
+        return ans;
     }
-    static void swap(int arr[],int i, int j){
-       int temp=arr[i];
-       arr[i]=arr[j];
-       arr[j]=temp;
-   }
+    public void swap(int []nums,int i,int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 }
