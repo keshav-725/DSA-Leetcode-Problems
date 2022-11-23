@@ -1,15 +1,19 @@
 class Solution {
     public int maxSubArray(int[] nums) {
-        int n = nums.length;
-        int []dp = new int[n];
-        dp[0] = nums[0];
-        int ans=nums[0];
-        for(int i=1;i<n;i++){
-            int max = nums[i];
-            max = Math.max(max,nums[i]+dp[i-1]);
-            dp[i] = max;
-            ans = Math.max(ans,dp[i]);
+        Integer [][]dp = new Integer[2][nums.length];
+        return helper(nums,0,false,dp);
+        
+    }
+    public int helper(int []nums,int idx,boolean check,Integer [][]dp){
+        if(idx==nums.length){
+            if(check) return 0;
+            return Integer.MIN_VALUE;
         }
-        return ans;
+        if(check){
+            if(dp[1][idx]!=null) return dp[1][idx];
+            return dp[1][idx]=Math.max(0,nums[idx]+helper(nums,idx+1,true,dp));
+        }
+        if(dp[0][idx]!=null) return dp[0][idx];
+        return dp[0][idx]=Math.max(helper(nums,idx+1,false,dp),nums[idx]+helper(nums,idx+1,true,dp));
     }
 }
