@@ -1,21 +1,27 @@
 class Solution {
-    public List<Integer> pathInZigZagTree(int label) {
-        int llv = 1;
-        int tv = 0;
-        while(tv<label){
-            tv += llv;
-            llv *= 2;
+    public List<Integer> pathInZigZagTree(int n) {
+        
+        int level=1,val=1;
+        while(n>=val){
+            val = val * 2;
+            level++;
         }
-        llv /=2;
+        level--;
+        // System.out.println(level);
         List<Integer> ans = new ArrayList<>();
-        while(label!=1){
-            ans.add(label);
-            int comp = 3*llv-label-1;
-            label = comp/2;
-            llv/=2;
+        ans.add(n);
+        while(n!=1){
+            int cmp = comp(level--,n);
+            n = cmp/2;
+            ans.add(n);
         }
-        ans.add(1);
         Collections.reverse(ans);
         return ans;
+    }
+    public int comp(int level,int val){
+        long st = (long)Math.pow(2,level-1);
+        long en = (long)Math.pow(2,level)-1;
+        int x = (int)(en + st -val);
+        return x;
     }
 }
