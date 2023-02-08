@@ -1,22 +1,19 @@
 class Solution {
     public int jump(int[] nums) {
-        int n = nums.length;
-        int []dp = new int[n];
+        int []dp = new int[nums.length];
         Arrays.fill(dp,-1);
-        dp[n-1]=0;
-        for(int i=n-2;i>=0;i--){
-            if(nums[i]==0) continue;
-            else{
-                int min = Integer.MAX_VALUE;
-                for(int j=1;j<=nums[i] && i+j<n;j++){
-                    if(dp[i+j]!=-1){
-                        min = Math.min(min,dp[i+j]);
-                    }
-                }
-                dp[i] = min==Integer.MAX_VALUE ? -1 : min+1;
+        return helper(0,nums,dp);
+    }
+    public int helper(int idx,int []nums,int []dp){
+        if(idx==(nums.length-1)) return 0;
+        int mval = 1000000009;
+        if(dp[idx]!=-1) return dp[idx];
+        for(int i=1;i<=nums[idx];i++){
+            if((idx+i)<=(nums.length-1)){
+                int ans = 1+helper(idx+i,nums,dp);
+                mval = Math.min(mval,ans);
             }
         }
-        
-        return dp[0];
+        return dp[idx]=mval;
     }
 }
